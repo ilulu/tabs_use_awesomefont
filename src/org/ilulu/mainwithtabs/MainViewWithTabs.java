@@ -17,6 +17,15 @@ import java.util.Map;
 public abstract class MainViewWithTabs extends FragmentActivity {
     private FragmentTabHost tabHost;
 
+    private TextView labelTextView,iconTextView;
+
+    public TextView getLabelTextView() {
+        return labelTextView;
+    }
+
+    public TextView getIconTextView() {
+        return iconTextView;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +58,10 @@ public abstract class MainViewWithTabs extends FragmentActivity {
      */
     public abstract Typeface getTypeface();
 
+    /**
+     * 初始化tabHost
+     * @param tabHost
+     */
     private void prepareTabItem(FragmentTabHost tabHost) {
         for (int i = 0; i < getTabsFragmentClass().size(); i++) {
             Map<String,String> labesAndIcon=getTabsLableAndIcon().get(i);
@@ -60,16 +73,23 @@ public abstract class MainViewWithTabs extends FragmentActivity {
             tabHost.addTab(tabSpec, getTabsFragmentClass().get(i), null);
         }
     }
+
+    /**
+     * 分别创建每一个Tab的内容。
+     * @param label
+     * @param icon
+     * @return
+     */
     private View createTabItemView(String label,String icon) {
         View view = getLayoutInflater().inflate(R.layout.tab_item_view, null);
         // set tab item label
-        TextView textView = (TextView) view.findViewById(R.id.tab_item_label);
-        textView.setText(label);
+        labelTextView = (TextView) view.findViewById(R.id.tab_item_label);
+        labelTextView.setText(label);
 
         // set tab item icon
-        TextView imageView = (TextView) view.findViewById(R.id.tab_item_icon);
-        imageView.setTypeface(getTypeface());
-        imageView.setText(icon);
+        iconTextView = (TextView) view.findViewById(R.id.tab_item_icon);
+        iconTextView.setTypeface(getTypeface());
+        iconTextView.setText(icon);
 
         return view;
     }
