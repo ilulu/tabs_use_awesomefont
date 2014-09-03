@@ -17,15 +17,6 @@ import java.util.Map;
 public abstract class MainViewWithTabs extends FragmentActivity {
     private FragmentTabHost tabHost;
 
-    private TextView labelTextView,iconTextView;
-
-    public TextView getLabelTextView() {
-        return labelTextView;
-    }
-
-    public TextView getIconTextView() {
-        return iconTextView;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,19 +28,12 @@ public abstract class MainViewWithTabs extends FragmentActivity {
     }
 
     /**
-     * 定义TAB对应的Fragment的class
+     * 定义TAB
      * @return
      */
-    public abstract LinkedList<Class> getTabsFragmentClass();
+    public abstract LinkedList<Tab> getTabs();
 
-    /**
-     * 定义tab的label和icon
-     * 其显示顺序和tabsFragmentClass对应
-     * label和icon使用map的形式书写，例如{"label":"xxxxx","icon","xxxx"}
-     * 为了在不同分辨率上显示的效果相同，这里ICON使用的是图标字体，比如fontawesome
-     * @return
-     */
-    public abstract LinkedList<Map<String,String>> getTabsLableAndIcon();
+
 
     /**
      * 返回图标字体。通常字体文件放置在项目根目录的asset/fonts下
@@ -63,14 +47,13 @@ public abstract class MainViewWithTabs extends FragmentActivity {
      * @param tabHost
      */
     private void prepareTabItem(FragmentTabHost tabHost) {
-        for (int i = 0; i < getTabsFragmentClass().size(); i++) {
-            Map<String,String> labesAndIcon=getTabsLableAndIcon().get(i);
-            String label=labesAndIcon.get("label");
-            String icon=labesAndIcon.get("icon");
+        for(Tab tab:getTabs()){
+            String label=tab.getLabel();
+            String icon=tab.getIcon();
             //为每一个Tab按钮设置图标、文字和内容
             TabHost.TabSpec tabSpec = tabHost.newTabSpec(label).setIndicator(createTabItemView(label,icon));
             //将Tab按钮添加进Tab选项卡中
-            tabHost.addTab(tabSpec, getTabsFragmentClass().get(i), null);
+            tabHost.addTab(tabSpec, tab.getTabFragmet(), null);
         }
     }
 
@@ -83,11 +66,11 @@ public abstract class MainViewWithTabs extends FragmentActivity {
     private View createTabItemView(String label,String icon) {
         View view = getLayoutInflater().inflate(R.layout.tab_item_view, null);
         // set tab item label
-        labelTextView = (TextView) view.findViewById(R.id.tab_item_label);
+        TextView labelTextView = (TextView) view.findViewById(R.id.tab_item_label);
         labelTextView.setText(label);
 
         // set tab item icon
-        iconTextView = (TextView) view.findViewById(R.id.tab_item_icon);
+        TextView iconTextView = (TextView) view.findViewById(R.id.tab_item_icon);
         iconTextView.setTypeface(getTypeface());
         iconTextView.setText(icon);
 
