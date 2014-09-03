@@ -24,7 +24,11 @@ public abstract class MainViewWithTabs extends FragmentActivity {
         setContentView(R.layout.main);
         tabHost = (FragmentTabHost) findViewById(R.id.tabhost);
         tabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
-        prepareTabItem(tabHost);
+        try {
+            prepareTabItem(tabHost);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -46,7 +50,10 @@ public abstract class MainViewWithTabs extends FragmentActivity {
      * 初始化tabHost
      * @param tabHost
      */
-    private void prepareTabItem(FragmentTabHost tabHost) {
+    private void prepareTabItem(FragmentTabHost tabHost) throws Exception {
+        if(getTabs().size()>4){
+            throw new Exception("是不是考虑一下就只用4个TABS");
+        }
         for(Tab tab:getTabs()){
             String label=tab.getLabel();
             String icon=tab.getIcon();
