@@ -12,26 +12,19 @@ Demo
 public class MyActivity extends MainViewWithTabs { 
 >
      @Override
-     public LinkedList<Class> getTabsFragmentClass() {
-         LinkedList<Class> aa=new LinkedList<Class>();
-         aa.add(TestFragment.class);
-         aa.add(TestSndFragment.class);
-         return aa;
-     }
-> 
-     @Override
-     public LinkedList<Map<String, String>> getTabsLableAndIcon() {
-         Map<String,String> record1=new HashMap<String,String>();
-         record1.put("label","Android");
-         record1.put("icon",getString(R.string.fa_android));
-         Map<String,String> record2=new HashMap<String,String>();
-         record2.put("label","Apple");
-         record2.put("icon",getString(R.string.fa_apple));
-         LinkedList<Map<String,String>> linkedList=new LinkedList<Map<String, String>>();
-         linkedList.add(record1);
-         linkedList.add(record2);
-         return linkedList;
-     }
+         public LinkedList<Tab> getTabs() {
+             Tab tab = new Tab(TestFragment.class, "Apple", getString(R.string.fa_apple));
+             Tab tab2 = new Tab(TestSndFragment.class, "Android", getString(R.string.fa_android));
+             Tab tab3 = new Tab(TestFragment.class, "Apple", getString(R.string.fa_apple));
+             Tab tab4 = new Tab(TestSndFragment.class, "Android", getString(R.string.fa_android));
+             LinkedList<Tab> linkedList = new LinkedList<Tab>();
+             linkedList.add(tab);
+             linkedList.add(tab2);
+             linkedList.add(tab3);
+             linkedList.add(tab4);
+             return linkedList;
+         }
+     
 > 
      @Override
      public Typeface getTypeface() {
