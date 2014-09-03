@@ -6,6 +6,8 @@
 快速的生成一个类似IOS的TAB的主界面。
 
 菜单与fragment一一对应。
+
+Demo
 >
 public class MyActivity extends MainViewWithTabs { 
 >
